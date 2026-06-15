@@ -43,7 +43,7 @@ public class Merchant {
     @Enumerated(EnumType.STRING)
     private MerchantStatus status = MerchantStatus.PENDING_KYC;
 
-    @Column(length = 20, nullable = false)
+    @Column(length = 20)
     private String gstId;
 
     @Column(length = 20)
