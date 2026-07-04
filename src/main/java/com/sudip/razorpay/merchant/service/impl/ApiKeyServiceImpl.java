@@ -7,6 +7,7 @@ import com.sudip.razorpay.merchant.dto.response.ApiKeyCreateResponse;
 import com.sudip.razorpay.merchant.dto.response.ApiKeyResponse;
 import com.sudip.razorpay.merchant.entity.ApiKey;
 import com.sudip.razorpay.merchant.entity.Merchant;
+import com.sudip.razorpay.merchant.mapper.ApiKeyMapper;
 import com.sudip.razorpay.merchant.repository.ApiKeyRepository;
 import com.sudip.razorpay.merchant.repository.MerchantRepository;
 import com.sudip.razorpay.merchant.service.ApiKeyService;
@@ -28,6 +29,7 @@ public class ApiKeyServiceImpl implements ApiKeyService {
 
     private final MerchantRepository merchantRepository;
     private final ApiKeyRepository apiKeyRepository;
+    private final ApiKeyMapper apiKeyMapper;
 
     @Override
     @Transactional
@@ -52,14 +54,8 @@ public class ApiKeyServiceImpl implements ApiKeyService {
 
     @Override
     public List<ApiKeyResponse> listByMerchant(UUID merchantId) {
-        return apiKeyRepository.findByMerchant_Id(merchantId).stream()
-                .map(apiKey -> new ApiKeyResponse(
-                        apiKey.getId(),
-                        apiKey.getKeyId(),
-                        apiKey.getEnvironment(),
-                        apiKey.isEnabled(),
-                        apiKey.getLastUsedAt(), null))
-        .toList();
+        return apiKeyMapper.toResponse(apiKeyRepository.findByMerchant_Id(merchantId));
+
     }
 
     @Override
@@ -78,6 +74,8 @@ public class ApiKeyServiceImpl implements ApiKeyService {
         ApiKey apiKey = apiKeyRepository.findById(keyId)
                 .filter(k -> k.getMerchant().getId().equals(merchantId))
                 .orElseThrow(() -> new ResourceNotFoundException("ApiKey", keyId));
+
+        if (apiKey.isEnabled()) throw new RuntimeException("Cannot rotate a disabled key");
 
         String newRawSecret = RandomizerUtil.randomBase64(40);
         apiKey.setPreviousKeySecretHash(apiKey.getKeySecretHash());

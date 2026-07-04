@@ -1,5 +1,6 @@
 package com.sudip.razorpay.payment.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 
 import com.sudip.razorpay.payment.dto.request.CreateOrderRequest;
@@ -22,9 +23,9 @@ public class OrderController {
     UUID merchantId = UUID.fromString("c94fd399-5a29-44a6-824e-e628014568e2");  // TODO: Replace it with the merchant context
 
     @PostMapping
-    public ResponseEntity<OrderResponse> create(@RequestBody CreateOrderRequest request) {
+    public ResponseEntity<OrderResponse> create(@RequestBody @Valid CreateOrderRequest request) {
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(orderService.create(merchantId, request));
-  }
+    }
 }

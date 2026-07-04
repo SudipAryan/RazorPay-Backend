@@ -1,6 +1,6 @@
 package com.sudip.razorpay.payment.dto.request;
 
-import com.sudip.razorpay.common.Money;
+import com.sudip.razorpay.common.entity.Money;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 

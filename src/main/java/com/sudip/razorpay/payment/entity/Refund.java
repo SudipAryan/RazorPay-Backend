@@ -1,6 +1,7 @@
 package com.sudip.razorpay.payment.entity;
 
-import com.sudip.razorpay.common.Money;
+import com.sudip.razorpay.common.entity.BaseEntity;
+import com.sudip.razorpay.common.entity.Money;
 import com.sudip.razorpay.common.enums.RefundStatus;
 import jakarta.persistence.*;
 import org.hibernate.annotations.JdbcTypeCode;
@@ -13,7 +14,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "refund")
-public class Refund {
+public class Refund extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
