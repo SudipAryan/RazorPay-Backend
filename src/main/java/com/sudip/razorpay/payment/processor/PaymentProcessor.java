@@ -5,6 +5,8 @@ import com.sudip.razorpay.payment.processor.dto.PaymentProcessorResponse;
 
 public interface PaymentProcessor {
 
+    PaymentProcessorResponse process(PaymentProcessorRequest request);
+
     PaymentProcessorResponse charge(PaymentProcessorRequest request);
 
 }

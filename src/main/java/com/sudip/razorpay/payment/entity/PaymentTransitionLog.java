@@ -30,7 +30,7 @@ public class PaymentTransitionLog extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "from_status", length = 30)
-    private PaymentStatus paymentStatus;
+    private PaymentStatus fromStatus;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "event", nullable = false, length = 30)
