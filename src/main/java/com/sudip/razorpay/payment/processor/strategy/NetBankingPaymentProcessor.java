@@ -8,11 +8,6 @@ import com.sudip.razorpay.payment.processor.dto.PaymentProcessorResponse;
 public class NetBankingPaymentProcessor implements PaymentProcessor {
 
     @Override
-    public PaymentProcessorResponse process(PaymentProcessorRequest request) {
-        return null;
-    }
-
-    @Override
     public PaymentProcessorResponse charge(PaymentProcessorRequest request) {
 
         final String BANK_CODE_FAIL = "BANK_CODE_FAIL";
@@ -29,8 +24,8 @@ public class NetBankingPaymentProcessor implements PaymentProcessor {
 
         String processorRef = "NBK_PROCESSOR_"+ RandomizerUtil.randomBase64(16);
 
-        String redirectRef = "http://REDIRECT_BANK.com/"+processorRef;
+//        String redirectRef = "http://REDIRECT_BANK.com/"+processorRef;
 
-        return new PaymentProcessorResponse.Success(processorRef, redirectRef);
+        return new PaymentProcessorResponse.Pending(processorRef);
     }
 }

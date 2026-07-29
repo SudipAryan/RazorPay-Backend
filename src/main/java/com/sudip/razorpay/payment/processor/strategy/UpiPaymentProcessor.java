@@ -8,11 +8,6 @@ import com.sudip.razorpay.payment.processor.dto.PaymentProcessorResponse;
 public class UpiPaymentProcessor implements PaymentProcessor {
 
     @Override
-    public PaymentProcessorResponse process(PaymentProcessorRequest request) {
-        return null;
-    }
-
-    @Override
     public PaymentProcessorResponse charge(PaymentProcessorRequest request) {
         final String VPA_CODE_FAIL = "fail@okaxis";
 
@@ -28,8 +23,6 @@ public class UpiPaymentProcessor implements PaymentProcessor {
 
         String processorRef = "UPI_PROCESSOR "+ RandomizerUtil.randomBase64(16);
 
-        String bankRef = "BANK_REF"+processorRef;
-
-        return new PaymentProcessorResponse.Success(processorRef, bankRef);
+        return new PaymentProcessorResponse.Pending(processorRef);
     }
 }

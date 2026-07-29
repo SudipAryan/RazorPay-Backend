@@ -76,11 +76,15 @@ public class PaymentServiceImpl implements PaymentService {
                 payment.setErrorDescription(failure.errorDescription());
             }
             case PaymentResult.Success success -> {
+                log.warn("Invaid state");
+                return null;
             }
         }
 
         payment  = paymentRepository.save(payment);
         orderRepository.save(order);
+
+//        TODO: Send an outbox (Kafka event)
 
         return paymentMapper.toResponse(payment);
     }
