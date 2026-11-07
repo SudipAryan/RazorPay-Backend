@@ -1,5 +1,6 @@
 package com.sudip.razorpay.payment.statemachine;
 
+import com.sudip.razorpay.common.enums.PaymentActor;
 import com.sudip.razorpay.common.enums.PaymentEvent;
 import com.sudip.razorpay.common.enums.PaymentStatus;
 import com.sudip.razorpay.payment.entity.Payment;
@@ -19,17 +20,17 @@ public class PaymentTransitionService {
 
     public PaymentStatus apply(Payment payment, PaymentEvent event) {
         PaymentStatus next = paymentStateMachine.transition(payment.getStatus(), event);
-        payment.setStatus(next);
         PaymentTransitionLog log = PaymentTransitionLog.builder()
                 .payment(payment)
                 .fromStatus(payment.getStatus())
                 .event(event)
                 .toStatus(next)
-                .actor("SYSTEM")// TODO: fetch merchant context to identify actor
+                .actor(String.valueOf(PaymentActor.SYSTEM))// TODO: fetch merchant context to identify actor
                 .occurredAt(LocalDateTime.now())
                 .build();
-
+        payment.setStatus(next);
         paymentTransitionLogRepository.save(log);
         return next;
     }
 }
+
